@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import get_db
+import auth
+import notes # 1. Import our fresh notes file
 
 app = FastAPI(title="HearEase AI Backend", version="1.0.0")
 
-# Enable secure communication between your Lovable frontend and this server
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -13,8 +14,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize the cloud database attachment
 db = get_db()
+
+# Mount our modular component sub-routers onto the main engine
+app.include_router(auth.router)
+app.include_router(notes.router) # 2. Register the notes paths
 
 @app.get("/")
 def home():
@@ -22,6 +26,5 @@ def home():
     return {
         "status": "Online",
         "database_connection": db_status,
-        "message": "Welcome to the HearEase Accessibility & AI Engine API",
-        "supported_languages": ["English", "Kinyarwanda", "Français"]
+        "message": "Welcome to the HearEase Accessibility & AI Engine API"
     }
