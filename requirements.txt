@@ -4,3 +4,6 @@ pymongo[srv]==4.6.2
 bcrypt==4.1.2
 pyjwt==2.8.0
 python-multipart==0.0.9
+pydantic[email]==2.6.4
+email-validator==2.1.1
+python-dotenv==1.0.1
