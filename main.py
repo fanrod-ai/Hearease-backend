@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import get_db
 import auth
-import notes # 1. Import our fresh notes file
+import notes
+import goals # 1. Import our fresh goals file
 
 app = FastAPI(title="HearEase AI Backend", version="1.0.0")
 
@@ -16,9 +17,10 @@ app.add_middleware(
 
 db = get_db()
 
-# Mount our modular component sub-routers onto the main engine
+# Mount our modular framework routers onto the central engine instance
 app.include_router(auth.router)
-app.include_router(notes.router) # 2. Register the notes paths
+app.include_router(notes.router)
+app.include_router(goals.router) # 2. Register the goals paths
 
 @app.get("/")
 def home():
